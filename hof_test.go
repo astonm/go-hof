@@ -109,3 +109,18 @@ func TestReduceInit(t *testing.T) {
 		t.Fatal("expected", exp, ", got", out)
 	}
 }
+
+func TestReduceTwoTypes(t *testing.T) {
+	var reduce func (func (string, int) string, []int, string) string
+	MakeReduce(&reduce)
+
+	in := []int{0,1,2,3,4,5,6,7,8,9}
+	f := func(x string, y int) string { return x + string('0' + y) }
+	init := ""
+	exp := "0123456789"
+
+	out := reduce(f, in, init)
+	if exp != out {
+		t.Fatal("expected", exp, ", got", out)
+	}
+}
