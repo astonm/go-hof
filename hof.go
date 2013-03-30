@@ -68,7 +68,7 @@ func MakeFilter(filterPtr interface{}) {
 	f.Set(reflect.MakeFunc(f.Type(), filter))
 }
 
-func MakeReduce(reducePtr interface{}){
+func MakeReduce(reducePtr interface{}) {
 	f := reflect.ValueOf(reducePtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), reduce))
 }
