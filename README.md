@@ -5,7 +5,7 @@ go-hof is an experimental implementation of common higher-order functions in Go 
 This library uses Go's `reflect.MakeFunc` functionality to remove much of the boilerplate code involved in implementing a higher order function across multiple types. `reflect.MakeFunc` is unfortunately not available in Go 1.0, but is available at Go's `hg tip` and will be officially released as part of Go 1.1.
 
 ## Installation
-This code is go-gettable. Run `go get github.com/astonm/go-hof"` and then, in your code, `import "github.com/astonm/go-hof"` to use the `hof` package.
+This code is go-gettable. Run `go get github.com/astonm/go-hof` and then, in your code, `import "github.com/astonm/go-hof"` to use the `hof` package.
 
 ## Usage
 This package currently supports `map`, `filter` and `reduce`. Accordingly, it exports three functions to support creating higher order functions.
