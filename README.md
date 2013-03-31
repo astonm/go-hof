@@ -19,7 +19,7 @@ This package currently supports `map`, `filter` and `reduce`. Accordingly, it ex
 Each method takes a pointer to a zero value of a properly-typed function for that operation and replaces that zero value with working code for that particular higher order function. Kind of a mouthful. Here's an example:
 
     var mapper func (func (int) int, []int) []int
-    MakeMap(&mapper)
+    hof.MakeMap(&mapper)
 
     in := []int{1,2,3,4,5}
     f := func(x int) int { return x*2 }
