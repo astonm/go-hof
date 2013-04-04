@@ -1,3 +1,5 @@
+// Package hof is an experimental implementation of common higher-order functions in Go.
+// This package requires a version of Go that includes reflect.MakeFunc and reflect.MakeSlice.
 package hof
 
 import "reflect"
@@ -58,16 +60,33 @@ func reduce(in []reflect.Value) []reflect.Value {
 	return []reflect.Value{out}
 }
 
+/*
+MakeMapFunc takes pointer to a map function zero value and substitutes in the appropriate implementation.
+Generally, such a function will take the following form:
+    var mapper func (func (A) B, []A) []B
+*/
 func MakeMapFunc(mapFnPtr interface{}) {
 	f := reflect.ValueOf(mapFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), _map))
 }
 
+/*
+MakeFilterFunc takes pointer to a filter function zero value and substitutes in the appropriate implementation.
+Generally, such a function will take the following form:
+    var filter func (func (A) bool, []A) []A
+*/
 func MakeFilterFunc(filterFnPtr interface{}) {
 	f := reflect.ValueOf(filterFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), filter))
 }
 
+/*
+MakeFilterFunc takes pointer to a filter function zero value and substitutes in the appropriate implementation.
+Generally, such a function will take one of the following forms:
+    var reduce func (func (A, A) A, []A) A // takes two args: the reducer and the slice
+
+    var reduce func (func (A, B) A, []B, A) A // takes three args: the reducer, the slice, and an initial value
+*/
 func MakeReduceFunc(reduceFnPtr interface{}) {
 	f := reflect.ValueOf(reduceFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), reduce))
