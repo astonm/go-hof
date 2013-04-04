@@ -58,17 +58,17 @@ func reduce(in []reflect.Value) []reflect.Value {
 	return []reflect.Value{out}
 }
 
-func MakeMap(mapPtr interface{}) {
-	f := reflect.ValueOf(mapPtr).Elem()
+func MakeMapFunc(mapFnPtr interface{}) {
+	f := reflect.ValueOf(mapFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), _map))
 }
 
-func MakeFilter(filterPtr interface{}) {
-	f := reflect.ValueOf(filterPtr).Elem()
+func MakeFilterFunc(filterFnPtr interface{}) {
+	f := reflect.ValueOf(filterFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), filter))
 }
 
-func MakeReduce(reducePtr interface{}) {
-	f := reflect.ValueOf(reducePtr).Elem()
+func MakeReduceFunc(reduceFnPtr interface{}) {
+	f := reflect.ValueOf(reduceFnPtr).Elem()
 	f.Set(reflect.MakeFunc(f.Type(), reduce))
 }

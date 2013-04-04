@@ -5,7 +5,7 @@ import "reflect"
 
 func TestIntMap(t *testing.T) {
 	var mapper func(func(int) int, []int) []int
-	MakeMap(&mapper)
+	MakeMapFunc(&mapper)
 
 	in := []int{1, 2, 3, 4, 5}
 	f := func(x int) int { return x * 2 }
@@ -19,7 +19,7 @@ func TestIntMap(t *testing.T) {
 
 func TestStringIntMap(t *testing.T) {
 	var mapper func(func(string) int, []string) []int
-	MakeMap(&mapper)
+	MakeMapFunc(&mapper)
 
 	in := []string{"try", "this", "thing"}
 	f := func(x string) int { return len(x) }
@@ -34,7 +34,7 @@ func TestStringIntMap(t *testing.T) {
 
 func TestIntStringMap(t *testing.T) {
 	var mapper func(func(int) string, []int) []string
-	MakeMap(&mapper)
+	MakeMapFunc(&mapper)
 
 	in := []int{1, 2, 3}
 	exp := []string{"x", "xx", "xxx"}
@@ -55,7 +55,7 @@ func TestIntStringMap(t *testing.T) {
 
 func TestEmptyMap(t *testing.T) {
 	var mapper func(func(int) int, []int) []int
-	MakeMap(&mapper)
+	MakeMapFunc(&mapper)
 
 	in := []int{}
 	f := func(x int) int { return x * 2 }
@@ -69,7 +69,7 @@ func TestEmptyMap(t *testing.T) {
 
 func TestFilter(t *testing.T) {
 	var filter func(func(int) bool, []int) []int
-	MakeFilter(&filter)
+	MakeFilterFunc(&filter)
 
 	in := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	f := func(x int) bool { return x%2 == 0 }
@@ -83,7 +83,7 @@ func TestFilter(t *testing.T) {
 
 func TestReduce(t *testing.T) {
 	var reduce func(func(int, int) int, []int) int
-	MakeReduce(&reduce)
+	MakeReduceFunc(&reduce)
 
 	in := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	f := func(x, y int) int { return x + y }
@@ -97,7 +97,7 @@ func TestReduce(t *testing.T) {
 
 func TestReduceInit(t *testing.T) {
 	var reduce func(func(int, int) int, []int, int) int
-	MakeReduce(&reduce)
+	MakeReduceFunc(&reduce)
 
 	in := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	f := func(x, y int) int { return x + y }
@@ -112,7 +112,7 @@ func TestReduceInit(t *testing.T) {
 
 func TestReduceTwoTypes(t *testing.T) {
 	var reduce func(func(string, int) string, []int, string) string
-	MakeReduce(&reduce)
+	MakeReduceFunc(&reduce)
 
 	in := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	f := func(x string, y int) string { return x + string('0'+y) }
