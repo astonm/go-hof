@@ -124,3 +124,69 @@ func TestReduceTwoTypes(t *testing.T) {
 		t.Fatal("expected", exp, ", got", out)
 	}
 }
+
+func sliceRange(n int) []int {
+	out := make([]int, n, n)
+	for i := 0; i < n; i++ {
+		out[i] = i
+	}
+	return out
+}
+
+var benchmarkIn = sliceRange(100)
+
+func BenchmarkForMap(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		l := len(benchmarkIn)
+		out := make([]int, l, l)
+		for i := 0; i < l; i++ {
+			out[i] = benchmarkIn[i] * 2
+		}
+		if out[1] != 2 {
+			panic("wrong result")
+		}
+	}
+}
+
+func BenchmarkMakeMapFunc(b *testing.B) {
+	var mapper func(func(int) int, []int) []int
+	MakeMapFunc(&mapper)
+
+	for n := 0; n < b.N; n++ {
+		f := func(x int) int { return x * 2 }
+		out := mapper(f, benchmarkIn)
+		if out[1] != 2 {
+			panic("wrong result")
+		}
+	}
+}
+
+func interfaceMapper(f func(interface{}) interface{}, in []interface{}) []interface{} {
+	out := make([]interface{}, len(in), len(in))
+	for i, v := range in {
+		out[i] = f(v)
+	}
+	return out
+}
+
+func BenchmarkInterfaceMapFunc(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		l := len(benchmarkIn)
+
+		interfaceIn := make([]interface{}, l, l)
+		for i, x := range benchmarkIn {
+			interfaceIn[i] = x
+		}
+
+		f := func(x interface{}) interface{} {
+			return x.(int) * 2
+		}
+
+		interfaceOut := interfaceMapper(f, interfaceIn)
+
+		out := make([]int, l, l)
+		for i, n := range interfaceOut {
+			out[i] = n.(int)
+		}
+	}
+}
