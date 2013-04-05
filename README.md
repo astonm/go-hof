@@ -61,3 +61,4 @@ At the moment only slices are supported.
 
 * Add sanity-checking and friendly error messages for the arguments to functions. Currently the code blows up with mysterious-seeming messaging if the types aren't correct.
 * Add support for operations on arrays.
+* Figure out why operations are so slow (see the MakeMapFunc benchmarks)
