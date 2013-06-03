@@ -148,13 +148,14 @@ func BenchmarkForMap(b *testing.B) {
 	}
 }
 
-func BenchmarkMakeMapFunc(b *testing.B) {
-	var mapper func(func(int) int, []int) []int
-	MakeMapFunc(&mapper)
-
+func BenchmarkForFuncMap(b *testing.B) {
 	for n := 0; n < b.N; n++ {
+		l := len(benchmarkIn)
+		out := make([]int, l, l)
 		f := func(x int) int { return x * 2 }
-		out := mapper(f, benchmarkIn)
+		for i := 0; i < l; i++ {
+			out[i] = f(benchmarkIn[i])
+		}
 		if out[1] != 2 {
 			panic("wrong result")
 		}
@@ -187,6 +188,22 @@ func BenchmarkInterfaceMapFunc(b *testing.B) {
 		out := make([]int, l, l)
 		for i, n := range interfaceOut {
 			out[i] = n.(int)
+		}
+		if out[1] != 2 {
+			panic("wrong result")
+		}
+	}
+}
+
+func BenchmarkMakeMapFunc(b *testing.B) {
+	var mapper func(func(int) int, []int) []int
+	MakeMapFunc(&mapper)
+
+	for n := 0; n < b.N; n++ {
+		f := func(x int) int { return x * 2 }
+		out := mapper(f, benchmarkIn)
+		if out[1] != 2 {
+			panic("wrong result")
 		}
 	}
 }
